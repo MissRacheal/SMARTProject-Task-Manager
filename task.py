@@ -1,14 +1,15 @@
+#external module datetime
 import datetime
 #initialize an empty list to store task
 projectlist = []
 
 
 
-#In the construction of this code third party code has been used
+#In the construction of this code third-party code has been used
 #to enhance the program code. The original code and idea can be found here
 #https://elite.law.ac.uk/ultra/courses/_69892651_1/outline/edit/document/_12395134_1?courseId=_69892651_1&view=content
 #consolidate task in unit 6.
-#The code itself allows users to add task, view task, mark task as completed
+#The code itself allows users to add tasks, view tasks, mark tasks as completed
 
 #function to display project task management system
 def display_process():
@@ -17,7 +18,8 @@ def display_process():
    print("2. View the projects")
    print("3. Mark projects as completed")
    print("4. Delete project")
-   print("5. Exit")
+   print("5. View Upcoming Tasks")
+   print("6. Exit")
    
    
  
@@ -25,8 +27,9 @@ def display_process():
 #error handling code is included
 def add_project(projectlist):
   try:
+      #gets user input for project details
       project_name = input("Enter the name of the project: ")
-      priority = input("Enter the priority (High, Medium, Low): ")
+      priority = input("Enter the task priority (High, Medium, Low): ")
       due_date = input("Enter the due date (YYYY-MM-DD): ")
 
       
@@ -40,6 +43,7 @@ def add_project(projectlist):
 #function to view projects
 def view_project(projectlist):
   try:
+      #check if project list is empty
       if not projectlist:
         print("No projects found.")
       else:
@@ -52,9 +56,12 @@ def view_project(projectlist):
 #function to mark projects as completed
 def mark_completed(projectlist):
   try:
+      
+      #displays projects for user to choose from
      view_project(projectlist)
-     index = int(input("Enter the index of the project to mark as completed: "))
+     index = int(input("Enter the index of the project to marked as completed: "))
      if 1 <= index <= len(projectlist):
+        
         #code to find the specific index and mark as completed
         projectlist[index - 1]["completed"] = True
         print(f"Project '{projectlist[index - 1]['name']}' marked as completed.")
@@ -67,9 +74,13 @@ def mark_completed(projectlist):
  #function to delete a project       
 def delete_project(projectlist):
    try:
+      
+       #displays projects for user to choose from
       view_project(projectlist)
       index = int(input("Enter the index of the project to delete: "))
       if 1 <= index <= len(projectlist):
+          
+          #delete the selected index
         deleted_project = projectlist.pop(index - 1)
         print(f"Project '{deleted_project['name']}' deleted.")
       else:
@@ -82,7 +93,11 @@ def view_upcoming_tasks(projectlist):
     try:
         #code to get the current date and time
         today = datetime.date.today()
+        
+        #filters upcoming tasks based on due dates
         upcoming_tasks = [project for project in projectlist if project.get("due_date") and datetime.datetime.strptime(project["due_date"], "%Y-%m-%d").date() > today]
+        
+        #displays upcoming tasks
         if upcoming_tasks:
             print("Upcoming tasks:")
             for task in upcoming_tasks:
@@ -114,8 +129,10 @@ while True:
       elif options == '4':
          delete_project(projectlist)
         
-
       elif options == '5':
+         view_upcoming_tasks(projectlist) 
+
+      elif options == '6':
          print("Exiting Program...")
          break
       else:
